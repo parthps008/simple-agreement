@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Payment Pending Form</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+                background-color: #f4f4f4;
+            }
+
+            .container {
+                background: #fff;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                width: 100%;
+                max-width: 600px;
+            }
+
+            h1 {
+                margin-bottom: 20px;
+                font-size: 24px;
+                text-align: center;
+            }
+
+            .form-group {
+                margin-bottom: 15px;
+            }
+
+            label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: bold;
+            }
+
+            input,
+            textarea {
+                width: 100%;
+                padding: 8px;
+                box-sizing: border-box;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+
+            button {
+                width: 100%;
+                padding: 10px;
+                border: none;
+                background-color: #28a745;
+                color: #fff;
+                font-size: 16px;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+
+            button:hover {
+                background-color: #218838;
+            }
+
+            .submitted-message {
+                text-align: center;
+                color: #28a745;
+            }
+
+            .error-message {
+                color: #dc3545;
+                text-align: center;
+            }
+
+            img.signature-preview {
+                max-width: 100%;
+                height: auto;
+                display: block;
+                margin: 20px 0;
+            }
+
+            @media print {
+                .no-print {
+                    display: none;
+                }
+            }
+
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <h1>Payment Pending Form</h1>
+            {% if submitted %}
+            <div class="submitted-message">
+                <h2>Form Submitted Successfully</h2>
+                <div>
+                    <h3>Form Details</h3>
+                    <p><strong>Name:</strong> {{ form.cleaned_data.name }}</p>
+                    <p><strong>Payment Remaining:</strong> {{ form.cleaned_data.payment_remaining }}</p>
+                    <p><strong>Payment Due Date:</strong> {{ form.cleaned_data.payment_due_date }}</p>
+                    <p><strong>Agreement Policies:</strong> {{ form.cleaned_data.agreement_policies }}</p>
+                    {% if form.cleaned_data.signature %}
+                    <p><strong>Signature:</strong></p>
+                    <img src="{{  signature.signature.url }}" alt="Signature" class="signature-preview">
+                    {% endif %}
+                </div>
+                <button class="no-print" onclick="window.print()">Print</button>
+            </div>
+            {% else %}
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    {{ form.name }}
+                </div>
+                <div class="form-group">
+                    <label for="payment_remaining">Payment Remaining:</label>
+                    {{ form.payment_remaining }}
+                </div>
+                <div class="form-group">
+                    <label for="payment_due_date">Payment Due Date:</label>
+                    {{ form.payment_due_date }}
+                </div>
+                <div class="form-group">
+                    <label for="agreement_policies">Agreement Policies:</label>
+                    {{ form.agreement_policies }}
+                </div>
+                <div class="form-group">
+                    <label for="signature">Signature (upload an image):</label>
+                    {{ form.signature }}
+                </div>
+                <button type="submit">Submit</button>
+            </form>
+            {% endif %}
+        </div>
+    </body>
+
+</html>

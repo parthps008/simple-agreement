@@ -1,0 +1,22 @@
+<!-- accounts/templates/agreement_success.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Agreement Success</title>
+    </head>
+
+    <body>
+        <h1>Agreement Submitted Successfully!</h1>
+        <h2>Agreement Details:</h2>
+        <ul>
+            {% for key, value in form_data.items %}
+            <li><strong>{{ key }}:</strong> {{ value }}</li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'create_agreement' %}">Create another agreement</a>
+    </body>
+
+</html>
